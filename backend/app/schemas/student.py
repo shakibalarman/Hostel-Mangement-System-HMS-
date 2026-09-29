@@ -35,15 +35,31 @@ class StudentResponse(BaseModel):
     id: int
     user_id: int
     student_number: str
+    full_name: str | None = None
     date_of_birth: date | None
     gender: str | None
     address: str | None
     emergency_contact: str | None
-    department: str | None
     year_of_study: str | None
     created_at: datetime
 
     model_config = {"from_attributes": True}
+
+    @classmethod
+    def model_validate(cls, obj, *args, **kwargs):
+        data = {
+            "id": obj.id,
+            "user_id": obj.user_id,
+            "student_number": obj.student_number,
+            "full_name": obj.user.full_name if obj.user else None,
+            "date_of_birth": obj.date_of_birth,
+            "gender": obj.gender,
+            "address": obj.address,
+            "emergency_contact": obj.emergency_contact,
+            "year_of_study": obj.year_of_study,
+            "created_at": obj.created_at,
+        }
+        return cls(**data)
 
 
 class StudentDetailResponse(StudentResponse):

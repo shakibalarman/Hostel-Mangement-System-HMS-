@@ -1,21 +1,25 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { AppLayout } from '../layouts/AppLayout'
 import { RequireAuth, RequireRole } from '../components/RequireAuth'
+import { LandingPage } from '../pages/LandingPage'
 import { LoginPage } from '../pages/LoginPage'
 import { UnauthorizedPage } from '../pages/UnauthorizedPage'
 import { AdminDashboard } from '../pages/admin/AdminDashboard'
 import { StaffDashboard } from '../pages/staff/StaffDashboard'
 import { StudentDashboard } from '../pages/student/StudentDashboard'
 import { StudentsPage } from '../pages/admin/StudentsPage'
+import { StaffPage } from '../pages/admin/StaffPage'
 import { ApplicationsPage } from '../pages/admin/ApplicationsPage'
 import { RoomsPage } from '../pages/admin/RoomsPage'
 import { NoticesPage } from '../pages/admin/NoticesPage'
 import { MyRoomPage } from '../pages/student/MyRoomPage'
 import { PaymentsPage } from '../pages/student/PaymentsPage'
+import { MealTrackingPage } from '../pages/student/MealTrackingPage'
 
 export function AppRoutes() {
   return (
     <Routes>
+      <Route path="/" element={<LandingPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/unauthorized" element={<UnauthorizedPage />} />
 
@@ -34,6 +38,14 @@ export function AppRoutes() {
             element={
               <RequireRole roles={['ADMIN']}>
                 <StudentsPage />
+              </RequireRole>
+            }
+          />
+          <Route
+            path="/admin/staff"
+            element={
+              <RequireRole roles={['ADMIN']}>
+                <StaffPage />
               </RequireRole>
             }
           />
@@ -93,10 +105,17 @@ export function AppRoutes() {
               </RequireRole>
             }
           />
+          <Route
+            path="/student/meals"
+            element={
+              <RequireRole roles={['STUDENT']}>
+                <MealTrackingPage />
+              </RequireRole>
+            }
+          />
         </Route>
       </Route>
 
-      <Route path="/" element={<Navigate to="/login" replace />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   )

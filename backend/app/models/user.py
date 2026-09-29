@@ -16,6 +16,7 @@ if TYPE_CHECKING:
     from app.models.finance import Payment
     from app.models.leave import LeaveRequest
     from app.models.meal import MealAllocation
+    from app.models.meal_tracking import MealBalance, MealTracking
 
 
 class Role(Base):
@@ -82,6 +83,10 @@ class Student(Base):
     complaints: Mapped[List["Complaint"]] = relationship(back_populates="student")
     maintenance_requests: Mapped[List["MaintenanceRequest"]] = relationship(back_populates="student")
     meal_allocations: Mapped[List["MealAllocation"]] = relationship(back_populates="student")
+    meal_tracking_records: Mapped[List["MealTracking"]] = relationship(back_populates="student")
+    meal_balance: Mapped["MealBalance | None"] = relationship(
+        back_populates="student", uselist=False, cascade="all, delete-orphan"
+    )
 
 
 class Staff(Base):
