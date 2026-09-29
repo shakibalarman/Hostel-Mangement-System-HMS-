@@ -1,0 +1,13 @@
+[project]
+name = "hms-backend"
+version = "1.0.0"
+description = "Hostel Management System backend"
+requires-python = ">=3.11"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = "-q"
+filterwarnings = [
+    "ignore::DeprecationWarning",
+]
