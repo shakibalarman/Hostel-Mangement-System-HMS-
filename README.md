@@ -2,6 +2,48 @@
 
 Full-stack Hostel Management System — FastAPI + PostgreSQL + React.
 
+## Tech Stack
+
+- **Backend:** FastAPI, SQLAlchemy, Alembic, PostgreSQL, Pydantic, JWT
+- **Frontend:** React, TypeScript, React Router, Tailwind CSS, React Hook Form, Zod
+- **Auth:** Role-based access control (Admin, Staff, Student)
+
+## Features
+
+- JWT authentication with role-based authorization
+- Admin dashboard — manage students, room applications, rooms, and notices
+- Staff dashboard
+- Student dashboard — view room allocation and payments
+- RESTful API with auto-generated Swagger docs
+
+## Project Structure
+
+```
+HMS/
+├── backend/
+│   ├── app/
+│   │   ├── api/v1/endpoints/   # Route handlers
+│   │   ├── core/               # Config, DB, dependencies
+│   │   ├── models/             # SQLAlchemy models
+│   │   ├── repositories/       # Data access layer
+│   │   ├── schemas/            # Pydantic schemas
+│   │   └── services/           # Business logic
+│   ├── alembic/                # Migrations
+│   ├── tests/
+│   ├── .env
+│   ├── requirements.txt
+│   └── seed.py
+└── frontend/
+    └── src/
+        ├── api/                # API client
+        ├── components/         # Shared components
+        ├── context/            # Auth state
+        ├── layouts/            # App layout
+        ├── pages/              # Page components
+        ├── routes/             # Route definitions
+        └── schemas/            # Zod validation
+```
+
 ## Requirements
 
 | Tool | Version |
