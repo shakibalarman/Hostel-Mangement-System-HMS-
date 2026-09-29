@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useNavigate } from 'react-router-dom'
@@ -6,8 +7,14 @@ import { loginSchema, type LoginFormValues } from '../schemas/auth'
 import { Button } from '../components/ui/Button'
 import { Input } from '../components/ui/Input'
 
+const roleHome: Record<string, string> = {
+  ADMIN: '/admin',
+  STAFF: '/staff',
+  STUDENT: '/student',
+}
+
 export function LoginPage() {
-  const { login, isAuthenticated } = useAuth()
+  const { login, isAuthenticated, user } = useAuth()
   const navigate = useNavigate()
 
   const {
@@ -19,9 +26,11 @@ export function LoginPage() {
     resolver: zodResolver(loginSchema),
   })
 
-  if (isAuthenticated) {
-    navigate('/admin', { replace: true })
-  }
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      navigate(roleHome[user.role] ?? '/', { replace: true })
+    }
+  }, [isAuthenticated, user, navigate])
 
   const onSubmit = async (values: LoginFormValues) => {
     try {

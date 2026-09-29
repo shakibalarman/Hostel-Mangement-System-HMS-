@@ -1,11 +1,11 @@
 from __future__ import annotations
 
-from fastapi import APIRouter, Depends, status
+from fastapi import APIRouter, Depends, Form, status
 from sqlalchemy.orm import Session
 
 from app.core.database import get_db
 from app.core.dependencies import get_token_payload
-from app.schemas.auth import LoginRequest, TokenResponse
+from app.schemas.auth import TokenResponse
 from app.schemas.user import UserResponse
 from app.services.auth import AuthService
 
@@ -13,9 +13,13 @@ router = APIRouter(prefix="/auth", tags=["auth"])
 
 
 @router.post("/login", response_model=TokenResponse, status_code=status.HTTP_200_OK)
-def login(payload: LoginRequest, db: Session = Depends(get_db)) -> TokenResponse:
+def login(
+    username: str = Form(min_length=1, max_length=50),
+    password: str = Form(min_length=1, max_length=128),
+    db: Session = Depends(get_db),
+) -> TokenResponse:
     service = AuthService(db)
-    _, token = service.login(payload.username, payload.password)
+    _, token = service.login(username, password)
     return TokenResponse(access_token=token)
 
 
